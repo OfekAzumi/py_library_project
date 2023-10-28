@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add Toastify CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <title>Library Books</title>
+    <style>
+        .text-button {
+            border: none;
+            background: none;
+            padding: 0;
+            font-size: 16px;
+            color: #007bff;
+            /* Change the color as desired */
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="books.html">Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="customers.html">Customers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="loans.html">Loans</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        <h1>Library Books</h1>
+        <hr>
+        <div class="mt-3 border p-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="b_name" class="form-label">Book Name:</label>
+                    <input type="text" id="b_name" class="form-control" oninput="search_data()">
+                </div>
+                <div class="col-md-6">
+                    <label for="author" class="form-label">Author:</label>
+                    <input type="text" id="author" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label for="year" class="form-label">Year Published:</label>
+                    <input type="number" id="year" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label for="b_type" class="form-label">Book Type:</label>
+                    <input type="number" id="b_type" class="form-control" min="1" max="3">
+                </div>
+                <div class="col-md-6">
+                    <label for="b_id" class="form-label">Book ID:</label>
+                    <input type="number" id="b_id" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-outline-primary btn-block" onclick="get_data()">Books</button>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-outline-secondary btn-block" onclick="add_book()">New</button>
+            </div>
+        </div>
+
+
+        <div id="dis" class="row mt-4">
+            <!-- Books will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        const MY_SERVER = 'http://127.0.0.1:5000/books/'
+
+        // Function to fetch and display books
+        const get_data = async () => {
+            const response = await axios.get(MY_SERVER);
+            const books = response.data;
+            // Display books using Bootstrap cards
+            const bookList = document.getElementById("dis");
+            bookList.innerHTML = books.map(book => `
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <button class="text-button" onclick='data_to_fields(${book.id})'><h5 class="card-title">${book.name}</h5></button>
+                                <p class="card-text">${book.author}</p>
+                                <button class='btn btn-outline-info btn-block' onclick='update_book(${book.id})'>Update</button>
+                                <button class='btn btn-outline-danger btn-block' onClick='delete_book(${book.id})'>Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        // add a book
+        const add_book = async () => {
+            document.getElementById("dis").innerHTML = ''
+            try {
+                const response = await axios.post(MY_SERVER, {
+                    "name": b_name.value,
+                    "author": author.value,
+                    "year": Number(year.value),
+                    "book_type": Number(b_type.value),
+                    "book_id": b_id.value
+                });
+            } catch (error) {
+                if (error.response) {
+                    Toastify({
+                        text: error.response.data.error,
+                        duration: 3000,
+                        gravity: 'top',
+                        backgroundColor: 'rgba(255, 92, 92, 0.85)',
+                        stopOnFocus: true,
+                    }).showToast();
+                } else {
+                    // Handle the case where there's no 'response' object in the error.
+                    // You can display a generic error message or handle it as needed.
+                    console.error("An error occurred:", error);
+                    Toastify({
+                        text: error,
+                        duration: 3000,
+                        gravity: 'top',
+                        backgroundColor: 'rgba(255, 92, 92, 0.85)',
+                        stopOnFocus: true,
+                    }).showToast();
+                }
+            };
+        }
+
+        // put book data in input fields
+        const data_to_fields = async (book_id) => {
+            const response = await axios.get(`${MY_SERVER}${book_id}`);
+            const book = response.data;
+            b_name.value = book.name
+            author.value = book.author
+            year.value = book.year
+            b_type.value = book.book_type
+            b_id.value = book.book_id
+        }
+
+        // clear input fields
+        const clear_fields = () => {
+            const clear = ''
+            b_name.value = clear
+            author.value = clear
+            year.value = clear
+            b_type.value = clear
+            b_id.value = clear
+        }
+
+        // update book
+        const update_book = async (book_id) => {
+            try {
+                const response = await axios.put(`${MY_SERVER}${book_id}`, {
+                    "name": b_name.value,
+                    "author": author.value,
+                    "year": Number(year.value),
+                    "book_type": Number(b_type.value),
+                    "book_id": b_id.value
+                });
+            } catch (error) {
+                Toastify({
+                    text: error.response.data.error,
+                    duration: 3000, // 3 seconds
+                    gravity: 'top', // Position the toast at the top
+                    backgroundColor: 'rgba(255, 92, 92, 0.85)',
+                    stopOnFocus: true, // Stop auto close when focused
+                }).showToast();
+            };
+        }
+
+        // delete book
+        const delete_book = async (book_id) => {
+            try {
+                const response = await axios.delete(`${MY_SERVER}${book_id}`);
+            } catch (error) {
+                Toastify({
+                    text: error.response.data.error,
+                    duration: 3000, // 3 seconds
+                    gravity: 'top', // Position the toast at the top
+                    backgroundColor: 'rgba(255, 92, 92, 0.85)',
+                    stopOnFocus: true, // Stop auto close when focused
+                }).showToast();
+            };
+        }
+
+        // search book by name
+        const search_data = async () => {
+            const response = await axios.get(MY_SERVER);
+            const books = response.data;
+            // Display books using Bootstrap cards
+            const bookList = document.getElementById("dis");
+            bookList.innerHTML = books.filter(book => (book.name).includes(b_name.value)).map(bk => `
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <button class="text-button" onclick='data_to_fields(${bk.id})'><h5 class="card-title">${bk.name}</h5></button>
+                                <p class="card-text">${bk.author}</p>
+                                <button class='btn btn-outline-info btn-block' onclick='update_book(${bk.id})'>Update</button>
+                                <button class='btn btn-outline-danger btn-block' onClick='delete_book(${bk.id})'>Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+        }
+    </script>
+
+    <!-- Add Bootstrap and Toastify JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+</body>
+
+
+</html>

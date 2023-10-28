@@ -1,0 +1,12 @@
+        /* Custom CSS for text-only button */
+        .text-button {
+            border: none;
+            background: none;
+            padding: 0;
+            font-size: 16px;
+            color: #007bff;
+            /* Change the color as desired */
+            cursor: pointer;
+            text-decoration: underline;
+            /* Add underline for a link-like appearance */
+        }

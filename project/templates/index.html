@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="books.html">Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="customers.html">Customers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="loans.html">Loans</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Welcome to Our Library</h1>
+        <p>Choose an option below:</p>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Books</h5>
+                        <p class="card-text">In this page you can view all of the books stored in our library. You can
+                            also add a new book, update, or delete a book.</p>
+                        <a href="books.html" class="btn btn-primary">Explore Books</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Customers</h5>
+                        <p class="card-text">In this page you can view all of the customers registered in our library.
+                            You can also add a new customer, update, or delete a customer.</p>
+                        <a href="customers.html" class="btn btn-primary">Explore Customers</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Loans</h5>
+                        <p class="card-text">In this page you can view all of the loans our customers made. You can also
+                            add a new loan or delete one.</p>
+                        <a href="loans.html" class="btn btn-primary">Explore Loans</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
