@@ -218,7 +218,7 @@
             const books = response.data;
             // Display books using Bootstrap cards
             const bookList = document.getElementById("dis");
-            bookList.innerHTML = books.filter(book => (book.name).includes(b_name.value)).map(bk => `
+            bookList.innerHTML = books.filter(book => (book.name.toLowerCase()).includes(b_name.value.toLowerCase())).map(bk => `
                     <div class="col-md-4 mb-3">
                         <div class="card">
                             <div class="card-body">
