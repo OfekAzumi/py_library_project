@@ -99,7 +99,8 @@
     </div>
 
     <script>
-        const MY_SERVER = 'https://library-managment-8w16.onrender.com/books/'
+        // const MY_SERVER = 'https://library-managment-8w16.onrender.com/books/'
+        const MY_SERVER = 'http://127.0.0.1:5000/books/'
 
         // Function to fetch and display books
         const get_data = async () => {
@@ -133,10 +134,10 @@
                     "book_id": b_id.value
                 });
                 Toastify({
-                    text: error.response.data.error,
+                    text: `Succefully Added ${b_name.value}`,
                     duration: 3000,
                     gravity: 'top',
-                    backgroundColor: 'rgba(0, 0, 255, 0.25)',
+                    backgroundColor: 'rgba(255, 92, 92, 0.85)',
                     stopOnFocus: true,
                 }).showToast();
                 clear_fields();
@@ -145,10 +146,10 @@
             } catch (error) {
                 if (error.response) {
                     Toastify({
-                        text: `Succefully Added ${b_name.value}`,
+                        text: error.response.data.error,
                         duration: 3000,
                         gravity: 'top',
-                        backgroundColor: 'rgba(255, 92, 92, 0.85)',
+                        backgroundColor: 'rgba(0, 0, 255, 0.25)',
                         stopOnFocus: true,
                     }).showToast();
                 } else {

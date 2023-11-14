@@ -26,7 +26,7 @@ Lastly, make sure install the required dependencies:
 pip install -r requirements.txt
 ```
 ## Running the Project
-Install the Visual Studio add-on/extension [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) in the extension tab (Ctrl+Shift+X).
+Install the Visual Studio add-on/extension [Open In Default Browser](https://marketplace.visualstudio.com/items?itemName=peakchen90.open-html-in-browser) in the extension tab (Ctrl+Shift+X).
 
 **Once you have installed the dependencies, you can run the project using the following command:**
 
@@ -35,11 +35,11 @@ py app.py
 ```
 ***you must run the 'app.py' command to use the project, else, the data won't be transferred.***
 
-**Then, Run the live server:**
+**Then, Run the default browser:**
 ``` bash
 - Open the 'templates' folder.
 - Right-click the 'index.html' file.
-- Click 'Open with Live Server'.
+- Click 'Open in default browser'.
 ```
 
 Now, you can start using the application. 
