@@ -91,7 +91,7 @@
     </div>
 
     <script>
-        const MY_SERVER = 'http://127.0.0.1:5000/customers/'
+        const MY_SERVER = 'https://library-managment-8w16.onrender.com/customers/'
 
         // display data in input fields
         const data_to_fields = async (customer_id) => {
@@ -142,6 +142,16 @@
                     "age": Number(age.value),
                     "cut_id": c_id.value
                 });
+                Toastify({
+                    text: `Succefully Added ${c_name.value}`,
+                    duration: 3000, // 3 seconds
+                    gravity: 'top', // Position the toast at the top
+                    backgroundColor: 'rgba(0, 0, 255, 0.25)',
+                    stopOnFocus: true, // Stop auto close when focused
+                }).showToast();
+                clear_fields();
+                get_data();
+
             } catch (error) {
                 Toastify({
                     text: error.response.data.error,
@@ -162,6 +172,14 @@
                     "age": Number(age.value),
                     "cut_id": c_id
                 });
+                Toastify({
+                    text: `Succefully Updated ${c_name.value}`,
+                    duration: 3000, // 3 seconds
+                    gravity: 'top', // Position the toast at the top
+                    backgroundColor: 'rgba(0, 0, 255, 0.25)',
+                    stopOnFocus: true, // Stop auto close when focused
+                }).showToast();
+                clear_fields()
             } catch (error) {
                 Toastify({
                     text: error.response.data.error,
@@ -177,6 +195,14 @@
         const delete_customer = async (customer_id) => {
             try {
                 const response = await axios.delete(`${MY_SERVER}${customer_id}`);
+                Toastify({
+                    text: `Succefully Deleted Customer From Database`,
+                    duration: 3000, // 3 seconds
+                    gravity: 'top', // Position the toast at the top
+                    backgroundColor: 'rgba(0, 0, 255, 0.25)',
+                    stopOnFocus: true, // Stop auto close when focused
+                }).showToast();
+                get_data()
             } catch (error) {
                 Toastify({
                     text: error.response.data.error,

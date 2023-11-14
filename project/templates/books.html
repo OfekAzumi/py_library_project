@@ -52,7 +52,8 @@
         <div class="mt-3 border p-3">
             <small class="text-muted">Please Fill in all the fields in the form and press the "New" button.</small><br>
             <small class="text-muted">Valid book type are 1,2 or 3.</small><br>
-            <small class="text-muted">(1) availble for a ten days loan, (2) a five days loan, (3) a two days loan.</small>
+            <small class="text-muted">(1) availble for a ten days loan, (2) a five days loan, (3) a two days
+                loan.</small>
         </div>
 
         <div class="mt-3 border p-3">
@@ -98,7 +99,7 @@
     </div>
 
     <script>
-        const MY_SERVER = 'http://127.0.0.1:5000/books/'
+        const MY_SERVER = 'https://library-managment-8w16.onrender.com/books/'
 
         // Function to fetch and display books
         const get_data = async () => {
@@ -131,10 +132,20 @@
                     "book_type": Number(b_type.value),
                     "book_id": b_id.value
                 });
+                Toastify({
+                    text: error.response.data.error,
+                    duration: 3000,
+                    gravity: 'top',
+                    backgroundColor: 'rgba(0, 0, 255, 0.25)',
+                    stopOnFocus: true,
+                }).showToast();
+                clear_fields();
+                get_data();
+
             } catch (error) {
                 if (error.response) {
                     Toastify({
-                        text: error.response.data.error,
+                        text: `Succefully Added ${b_name.value}`,
                         duration: 3000,
                         gravity: 'top',
                         backgroundColor: 'rgba(255, 92, 92, 0.85)',
@@ -186,6 +197,15 @@
                     "book_type": Number(b_type.value),
                     "book_id": b_id.value
                 });
+                Toastify({
+                    text: `Succefully Updated ${b_name.value}`,
+                    duration: 3000,
+                    gravity: 'top',
+                    backgroundColor: 'rgba(0, 0, 255, 0.25)',
+                    stopOnFocus: true,
+                }).showToast();
+                clear_fields();
+                get_data();
             } catch (error) {
                 Toastify({
                     text: error.response.data.error,
@@ -201,6 +221,14 @@
         const delete_book = async (book_id) => {
             try {
                 const response = await axios.delete(`${MY_SERVER}${book_id}`);
+                Toastify({
+                    text: `Succefully Deleted Book From Database`,
+                    duration: 3000, // 3 seconds
+                    gravity: 'top', // Position the toast at the top
+                    backgroundColor: 'rgba(0, 0, 255, 0.25)',
+                    stopOnFocus: true, // Stop auto close when focused
+                }).showToast();
+                get_data()
             } catch (error) {
                 Toastify({
                     text: error.response.data.error,

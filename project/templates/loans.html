@@ -84,11 +84,11 @@
     </div>
 
     <script>
-        const MY_SERVER = 'http://127.0.0.1:5000/loans/'
+        const MY_SERVER = 'https://library-managment-8w16.onrender.com/loans/'
 
         // gets customers and books in the input fields when opening the window
         const get_customers = async () => {
-            const response = await axios.get('http://127.0.0.1:5000/customers');
+            const response = await axios.get('https://library-managment-8w16.onrender.com/customers');
             const customers = response.data;
             // Display customers using Bootstrap cards
             const custsList = document.getElementById("customers");
@@ -96,7 +96,7 @@
         }
 
         const get_books = async () => {
-            const response = await axios.get('http://127.0.0.1:5000/books');
+            const response = await axios.get('https://library-managment-8w16.onrender.com/books');
             const books = response.data;
             // Display books using Bootstrap cards
             const bookList = document.getElementById("books");
@@ -165,14 +165,22 @@
         const add_loan = async () => {
             document.getElementById("dis").innerHTML = ''
             try {
-                const book_response = await axios.get(`http://127.0.0.1:5000/books/${books.value}`); // get book by name
+                const book_response = await axios.get(`https://library-managment-8w16.onrender.com/books/${books.value}`); // get book by name
                 const book = book_response.data;
-                const customer_response = await axios.get(`http://127.0.0.1:5000/customers/${customers.value}`); // get customer by name
+                const customer_response = await axios.get(`https://library-managment-8w16.onrender.com/customers/${customers.value}`); // get customer by name
                 const customer = customer_response.data;
                 const response = await axios.post(MY_SERVER, {
                     "c_id": customer.id,
                     "b_id": book.id
                 });
+                Toastify({
+                    text: `Succefully Added Loan`,
+                    duration: 3000, // 3 seconds
+                    gravity: 'top', // Position the toast at the top
+                    backgroundColor: 'rgba(0, 0, 255, 0.25)',
+                    stopOnFocus: true, // Stop auto close when focused
+                }).showToast();
+                get_data()
             } catch (error) {
                 Toastify({
                     text: error.response.data.error,
@@ -188,6 +196,14 @@
         const delete_loan = async (loan_id) => {
             try {
                 const response = await axios.delete(`${MY_SERVER}${loan_id}`);
+                Toastify({
+                    text: `Succefully Deleted Loan From Database`,
+                    duration: 3000, // 3 seconds
+                    gravity: 'top', // Position the toast at the top
+                    backgroundColor: 'rgba(0, 0, 255, 0.25)',
+                    stopOnFocus: true, // Stop auto close when focused
+                }).showToast();
+                get_data()
             } catch (error) {
                 Toastify({
                     text: error.response.data.error,
